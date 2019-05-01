@@ -14,22 +14,38 @@ def valPass(p, p2):
 def valEM(inp):
     if len(inp) == 0:
         return True
-    #TODO
+    if (not inp.count("@") == 1) or (not inp.count(".") == 1):
+        return False
+    if inp.find("@") > inp.find("."):
+        return False
+    return True
 
-@app.route("/", methods=['POST', 'GET'])
-def index():
-    er = ""
-    un = request.args.get("username")
+@app.route("/", methods=["POST"])
+def trySignup():
+    un = request.form["username"]
     if un == None:
         un = ""
-    em = request.args.get("email")
+    em = request.form["email"]
     if em == None:
         em = ""
-    p = request.args.get("password")
-    p2 = request.args.get("v_password")
+    p = request.form["password"]
+    p2 = request.form["v_password"]
 
-    if isCorrect: #TODO
+    er = "" #TODO fix this so the html doesn't autoescape
+    if not valUN(un):
+        er += "<p>Your username needs to be between 3 and 20 characters long.</p>"
+    if not valPass(p, p2):
+        er += "<p>Either you forgot to put in a password, or they don't match.</p>"
+    if not valEM(em):
+        er += "<p>Your email doesn't match the correct format.</p>"
+
+    if er == "":
         return render_template("success.html")
     return render_template("signup.html", error=er, username=un, email=em)
+
+
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("signup.html", error="", username="", email="")
 
 app.run()

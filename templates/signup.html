@@ -2,7 +2,13 @@
 
 {% block content %}
 
-{{error}}
+{% if error|length == 0 %}
+    <p>Please sign up for this pretty website!</p>
+{% else %}
+    {% for er in error %}
+        <p>{{er}}</p>
+    {% endfor %}
+{% endif %}
 
 <form method="post">
 <p>Username <input type="text" name="username" value ="{{username}}"/></p>

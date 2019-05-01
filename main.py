@@ -31,21 +31,21 @@ def trySignup():
     p = request.form["password"]
     p2 = request.form["v_password"]
 
-    er = "" #TODO fix this so the html doesn't autoescape
+    er = []
     if not valUN(un):
-        er += "<p>Your username needs to be between 3 and 20 characters long.</p>"
+        er.append("Your username needs to be between 3 and 20 characters long.")
     if not valPass(p, p2):
-        er += "<p>Either you forgot to put in a password, or they don't match.</p>"
+        er.append("Either you forgot to put in a password, or they don't match.")
     if not valEM(em):
-        er += "<p>Your email doesn't match the correct format.</p>"
-
-    if er == "":
+        er.append("Your email doesn't match the correct format.")
+    if len(er) == 0:
         return render_template("success.html")
     return render_template("signup.html", error=er, username=un, email=em)
 
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("signup.html", error="", username="", email="")
+    er = []
+    return render_template("signup.html", error=[], username="", email="")
 
 app.run()

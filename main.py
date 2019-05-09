@@ -9,6 +9,8 @@ def valUN(inp):
     return (len(inp) > 2 and len(inp) < 21)
 
 def valPass(p, p2):
+    if len(p) < 3 or len(p) > 20:
+        return False
     return ((not p == None) and p == p2)
 
 def valEM(inp):
